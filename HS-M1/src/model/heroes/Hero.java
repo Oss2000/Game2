@@ -9,8 +9,9 @@ import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Icehowl;
 import model.cards.minions.Minion;
+import model.cards.minions.MinionListener;
 
-public abstract class Hero {
+public abstract class Hero implements MinionListener,HeroListener {
 	private String name;
 	private int currentHP;
 	private boolean heroPowerUsed;
@@ -78,7 +79,7 @@ public abstract class Hero {
 		return minions;
 	}
 
-	public static final ArrayList<Minion> getNeutralMinions(ArrayList<Minion> minions, int count) {
+	public static final ArrayList<Minion> getNeutralMinions(ArrayList<Minion> minions, int count) throws CloneNotSupportedException{
 		ArrayList<Minion> res = new ArrayList<Minion>();
 		int i = 0;
 		while (i < count) {
@@ -97,7 +98,7 @@ public abstract class Hero {
 			}
 			else if(occ==1 && minion.getRarity()!=Rarity.LEGENDARY)
 			{
-				res.add(minion);
+				res.add(minion.clone());
 				i++;
 			}
 		}
@@ -163,4 +164,10 @@ public abstract class Hero {
 	public String getName() {
 		return name;
 	}
+	//****** GUI de***************************************
+	public void onMinionDeath(Minion m){
+		
+	}
+	
+	
 }

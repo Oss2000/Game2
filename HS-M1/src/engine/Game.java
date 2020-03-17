@@ -2,7 +2,7 @@ package engine;
 
 import model.heroes.Hero;
 
-public class Game  {
+public class Game implements GameListener {
 	private Hero firstHero;
 	private Hero secondHero;
 	private Hero currentHero;
@@ -29,7 +29,9 @@ public class Game  {
 		return opponent;
 	}
 
-	
+	public void onGameOver(){
+		
+	}
 	
 	
 

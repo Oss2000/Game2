@@ -2,6 +2,8 @@ package model.cards.minions;
 
 import model.cards.Card;
 import model.cards.Rarity;
+import model.heroes.Hero;
+import exceptions.InvalidTargetException;
 
 public class Minion extends Card implements Cloneable {
 	private int attack;
@@ -11,6 +13,7 @@ public class Minion extends Card implements Cloneable {
 	private boolean divine;
 	private boolean sleeping;
 	private boolean attacked;
+	private MinionListener listener;
 
 	public Minion(String name, int manaCost, Rarity rarity, int attack, int maxHP, boolean taunt, boolean divine,
 			boolean charge) {
@@ -86,6 +89,44 @@ public class Minion extends Card implements Cloneable {
 
 	public boolean isDivine() {
 		return divine;
+	}
+
+	public void setListener(MinionListener listener) {
+		this.listener = listener;
+	}
+	//Think about where and to whom this variable will be set.
+	public void attack(Minion target){
+		if(!this.divine)
+		this.currentHP-=target.attack;
+		
+		if(!target.divine)
+		target.currentHP-=this.attack;
+		
+		this.divine=false;
+		target.divine=false;
+		
+		if(this.currentHP==0)
+			listener.onMinionDeath(this);
+		
+		if(target.currentHP==0)
+			listener.onMinionDeath(target);
+	
+			
+	}
+	public void attack(Hero target) throws InvalidTargetException{
+		if(!this.getName().equals("Icehowl"))
+		target.setCurrentHP(target.getCurrentHP()-this.attack);
+		else
+			throw new InvalidTargetException("ICEHOWLS CANNOT ATTACK HEROES!!");
+}
+	public Minion clone() throws CloneNotSupportedException{
+		if(this instanceof Minion)
+		{Minion x=new Minion(this.getName(),this.getManaCost(),this.getRarity(),attack,maxHP,taunt,divine,!this.sleeping);
+		return x;
+		}
+		else
+			throw new CloneNotSupportedException("CLONE TYPE IS NOT SUPPORTED!");
+		
 	}
 
 }
