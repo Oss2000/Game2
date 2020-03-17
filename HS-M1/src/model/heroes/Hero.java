@@ -166,6 +166,7 @@ public abstract class Hero implements MinionListener,HeroListener {
 	}
 	//****** GUI de***************************************
 	public void onMinionDeath(Minion m){
+	//****************************************************
 		
 	}
 	
